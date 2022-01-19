@@ -1,0 +1,11 @@
+node {
+
+    checkout scm
+
+    docker.withRegistry('https://registry.hub.docker.com', 'dokcerhubarni') {
+        def customImage = docker.build("arnisaha/nodejs-Express-docker-jenkins:latest")
+
+        /* push the container to the custom registry */
+        customImage.push()
+    }
+}
