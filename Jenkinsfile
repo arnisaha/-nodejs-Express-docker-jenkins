@@ -1,11 +1,30 @@
 node {
+    def app
 
-    checkout scm
+    stage('https://github.com/arnisaha/-nodejs-Express-docker-jenkins') {
+      
 
-    docker.withRegistry('https://github.com/arnisaha/-nodejs-Express-docker-jenkins.git', 'dokcerhubarni') {
-        def customImage = docker.build("arnisaha/-nodejs-Express-docker-jenkins.git")
+        checkout scm
+    }
 
-        /* push the container to the custom registry */
-        customImage.push()
+    stage('Build image') {
+  
+       app = docker.build("arni2022docker/docker-jenkins-git-nodejs")
+    }
+
+    stage('Test image') {
+  
+
+        app.inside {
+            sh 'echo "Tests passed"'
+        }
+    }
+
+    stage('Push image') {
+        
+        docker.withRegistry('https://registry.hub.docker.com', 'dokcerhubarni') {
+            app.push("${env.BUILD_NUMBER}")
+            app.push("latest")
+        }
     }
 }
