@@ -1,7 +1,7 @@
 node {
     def app
 
-    stage('https://github.com/arnisaha/-nodejs-Express-docker-jenkins') {
+    stage('https://github.com/arnisaha/-nodejs-Express-docker-jenkins.git') {
       
 
         checkout scm
